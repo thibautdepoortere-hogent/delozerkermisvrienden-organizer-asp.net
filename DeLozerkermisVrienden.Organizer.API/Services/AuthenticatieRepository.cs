@@ -19,7 +19,7 @@ namespace DeLozerkermisVrienden.Organizer.API.Services
         private readonly ILoginRepository _loginRepository;
         private readonly IInschrijvingRepository _inschrijvingRepository;
         private readonly string _jwtAuthenticationSecret;
-        private readonly string _salt = "$2x$10$V11TbtztH5K4bi.cRHmqAO";
+        private readonly string _salt;
 
         public AuthenticatieRepository(OrganizerContext context, ILidRepository lidRepository, ILoginRepository loginRepository, IInschrijvingRepository inschrijvingsRepository, IAppSettings appSettings)
         {
@@ -32,6 +32,7 @@ namespace DeLozerkermisVrienden.Organizer.API.Services
                 throw new ArgumentNullException(nameof(appSettings));
             }
             _jwtAuthenticationSecret = appSettings.JwtAuthenticationSecret();
+            _salt = appSettings.SaltApi();
         }
 
 

@@ -20,6 +20,11 @@ namespace DeLozerkermisVrienden.Organizer.API.Services
             return _configuration["ApiKeySendGrid"];
         }
 
+        public string SaltApi()
+        {
+            return _configuration["SaltApi"];
+        }
+
         public string JwtAuthenticationSecret()
         {
             return _configuration["JWTAuthenticationSecret"];

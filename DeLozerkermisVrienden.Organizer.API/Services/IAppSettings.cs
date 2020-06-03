@@ -8,6 +8,7 @@ namespace DeLozerkermisVrienden.Organizer.API.Services
     public interface IAppSettings
     {
         string ApiKey_SendGrid();
+        string SaltApi();
         string JwtAuthenticationSecret();
         string RekeningnummerEvenementen();
         string EmailEvenementen();
