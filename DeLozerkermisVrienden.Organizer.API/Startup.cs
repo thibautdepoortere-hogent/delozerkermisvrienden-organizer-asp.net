@@ -21,7 +21,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
-using EnvironmentName = Microsoft.AspNetCore.Hosting.EnvironmentName;
 
 namespace DeLozerkermisVrienden.Organizer.API
 {
@@ -39,7 +38,7 @@ namespace DeLozerkermisVrienden.Organizer.API
         public void ConfigureServices(IServiceCollection services)
         {
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var isDevelopment = environment == EnvironmentName.Development;
+            var isDevelopment = environment == Environments.Development;
 
             if (isDevelopment)
             {
@@ -136,9 +135,6 @@ namespace DeLozerkermisVrienden.Organizer.API
             services.AddScoped<IFabrieksInstellingRepository, FabrieksInstellingRepository>();
             services.AddDbContext<OrganizerContext>(options =>
             {
-            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var isDevelopment = environment == EnvironmentName.Development;
-
                 if (isDevelopment)
                 {
                     options.UseSqlServer(Configuration.GetConnectionString("DevelopConnection"));

@@ -13,7 +13,7 @@
       "commandName": "Project",
       "environmentVariables": {
         "ASPNETCORE_HOSTINGSTARTUP__KEYVAULT__CONFIGURATIONENABLED": "true",
-        "ASPNETCORE_ENVIRONMENT": "Production",
+        "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUP__KEYVAULT__CONFIGURATIONVAULT": "https://DLV-Org-Data-KeyVault.vault.azure.net"
       },
       "applicationUrl": "http://localhost:65000"

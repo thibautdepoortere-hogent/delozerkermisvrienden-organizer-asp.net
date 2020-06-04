@@ -13,7 +13,6 @@ using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using EnvironmentName = Microsoft.AspNetCore.Hosting.EnvironmentName;
 
 namespace DeLozerkermisVrienden.Organizer.API
 {
@@ -22,7 +21,7 @@ namespace DeLozerkermisVrienden.Organizer.API
         public static void Main(string[] args)
         {
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var isDevelopment = environment == EnvironmentName.Development;
+            var isDevelopment = environment == Environments.Development;
 
             if (isDevelopment)
             {
@@ -68,22 +67,28 @@ namespace DeLozerkermisVrienden.Organizer.API
                 .ConfigureAppConfiguration((context, config) =>
                 {
                     var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-                    var isDevelopment = environment == EnvironmentName.Development;
+                    var isDevelopment = environment == Environments.Development;
 
-                    var keyVaultEndpoint = "";
-                    if (isDevelopment) {
-                        keyVaultEndpoint = GetKeyVaultEndpointDevelopment();
-                    } else {
-                        keyVaultEndpoint = GetKeyVaultEndpointProduction();
-                    };
-                    if (!string.IsNullOrEmpty(keyVaultEndpoint))
-                    {
-                        var azureServiceTokenProvider = new AzureServiceTokenProvider();
-                        var keyVaultClient = new KeyVaultClient(
-                            new KeyVaultClient.AuthenticationCallback(
-                                azureServiceTokenProvider.KeyVaultTokenCallback));
-                        config.AddAzureKeyVault(keyVaultEndpoint, keyVaultClient, new DefaultKeyVaultSecretManager());
+                    if (!isDevelopment) {
+                        var keyVaultEndpoint = "";
+                        if (isDevelopment)
+                        {
+                            keyVaultEndpoint = GetKeyVaultEndpointDevelopment();
+                        }
+                        else
+                        {
+                            keyVaultEndpoint = GetKeyVaultEndpointProduction();
+                        };
+                        if (!string.IsNullOrEmpty(keyVaultEndpoint))
+                        {
+                            var azureServiceTokenProvider = new AzureServiceTokenProvider();
+                            var keyVaultClient = new KeyVaultClient(
+                                new KeyVaultClient.AuthenticationCallback(
+                                    azureServiceTokenProvider.KeyVaultTokenCallback));
+                            config.AddAzureKeyVault(keyVaultEndpoint, keyVaultClient, new DefaultKeyVaultSecretManager());
+                        }
                     }
+                    
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
